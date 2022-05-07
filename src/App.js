@@ -1,10 +1,20 @@
 import "./App.css";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Header from "./components/Header/Header";
-import firebase from "firebase";
+import db from "./firebase.config.js";
 
 const App = (props) => {
-  console.log(firebase.database());
+  const [blogs,setBlogs]=useState([]);
+  const fetchBlogs=async()=>{
+    const response=db.collection('Products');
+    const data=await response.get();
+    data.docs.forEach(item=>{
+     setBlogs([...blogs,item.data()])
+    })
+}
+useEffect(() => {
+  fetchBlogs();
+}, [])
   return (
     <main>
       <div className="bigWrapper">

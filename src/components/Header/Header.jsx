@@ -5,7 +5,6 @@ import styles from './Header.module.css';
 const Header = (props) => {
     const [ active, setActive ] = useState(false);
 
-    console.log(active);
     return (
       <div className={clsx(
           styles.bigWrapper,
