@@ -1,3 +1,25 @@
 .productsListWrapper {
+  padding: 0 16px;
 
+  .productsList {
+    display: flex;
+    flex-direction: column;
+
+    .product {
+      border: 1px solid #ccc;
+      margin: 0 0 20px 0;
+      padding: 16px;
+      box-shadow: 2px 2px 3px #999;
+      cursor: pointer;
+      transition: all 0.4s;
+
+      &:hover {
+        box-shadow: 2px 2px 5px #999;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
 }
