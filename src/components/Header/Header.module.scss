@@ -2,7 +2,6 @@
   position: relative;
   padding: 1.7rem 0 2rem;
   width: 100%;
-  min-height: 100vh;
   overflow: hidden;
   background-color: var(--backgroundColor);
   display: flex;
@@ -126,6 +125,7 @@ header {
       display: inline-block;
       text-decoration: none;
       transition: 0.3s;
+      cursor: pointer;
 
       &:hover {
         color: var(--hoverColor);

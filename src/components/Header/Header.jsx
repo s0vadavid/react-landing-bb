@@ -1,9 +1,15 @@
 import clsx from "clsx";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Header.module.scss';
 
 const Header = (props) => {
   const [ active, setActive ] = useState(false);
+  const navigate = useNavigate();
+
+  const onRedirect = (redirectPath) => {
+    navigate(redirectPath);
+  }
 
   return (
     <div className={clsx(styles.headerWrapper, { [styles.active]: active })}>
@@ -15,9 +21,9 @@ const Header = (props) => {
 
         <div className={styles.links}>
           <ul>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Testimonials</a></li>
+            <li><a onClick={() => onRedirect('/')}>Products</a></li>
+            <li><a onClick={() => onRedirect('/location')}>Location</a></li>
+            <li><a onClick={() => onRedirect('/aboutUs')}>About Us</a></li>
           </ul>
         </div>
 
