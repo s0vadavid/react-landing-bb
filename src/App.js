@@ -1,13 +1,14 @@
-import "./App.css";
 import React from "react";
-import Header from "./components/Header/Header";
 import firebase from "firebase";
+import Header from "./components/Header/Header";
+
+import styles from "./App.module.scss";
 
 const App = (props) => {
-  console.log(firebase.database());
+  console.log('FIREBASE START:', firebase.database());
   return (
     <main>
-      <div className="bigWrapper">
+      <div className={styles.appContainer}>
         <Header />
       </div>
     </main>

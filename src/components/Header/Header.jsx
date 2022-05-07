@@ -1,43 +1,34 @@
 import clsx from "clsx";
-import React, {useState} from "react";
-import styles from './Header.module.css';
+import React, { useState } from "react";
+import styles from './Header.module.scss';
 
 const Header = (props) => {
-    const [ active, setActive ] = useState(false);
+  const [ active, setActive ] = useState(false);
 
-    console.log(active);
-    return (
-      <div className={clsx(
-          styles.bigWrapper,
-          {
-              [styles.active]: active
-          }
-      )}>
-        <header>
-            <div className={styles.container}>
-                <div className={styles.logo}>
-                    <img src="../img/logo.png" alt="Logo" />
-                    <h3>Bad Bodenteich</h3>
-                </div>
-
-                <div className={styles.links}>
-                    <ul>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Testimonials</a></li>
-                        <li><a href="#" className={styles.btn}>Sign up</a></li>
-                    </ul>
-                </div>
-
-                <div className={styles.overlay}></div>
-
-                <div className={styles.hamburgerMenu} onClick={() => setActive(!active)}>
-                    <div className={styles.bar}></div>
-                </div>
-            </div>
-        </header>
+  return (
+    <div className={clsx(styles.headerWrapper, { [styles.active]: active })}>
+      <header>
+        <div className={styles.logo}>
+          {/*<img src="../../assets/img/tree-logo.png" alt="Logo" />*/}
+          <h3>Bad Bodenteich</h3>
         </div>
-    );
+
+        <div className={styles.links}>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Testimonials</a></li>
+          </ul>
+        </div>
+
+        <div className={styles.overlay} />
+
+        <div className={styles.hamburgerMenu} onClick={() => setActive(!active)}>
+          <div className={styles.bar} />
+        </div>
+      </header>
+    </div>
+  );
 }
 
 export default Header;
