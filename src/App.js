@@ -14,8 +14,14 @@ export const ContextLocalization = createContext({
   setLocal: () => {},
 });
 
+export const ContextLocalizationsData = createContext({
+  localsData: {},
+  setLocalsData: () => {},
+});
+
 const App = (props) => {
   const [ products, setProducts ] = useState([]);
+  const [ systemLocal, setSystemLocal ] = useState([]);
   const [ locals, setLocals ] = useState([]);
   const [ local, setLocal ] = useState('en');
   const value = useMemo(
@@ -23,8 +29,15 @@ const App = (props) => {
     [local]
   );
 
+  const [ localsData, setLocalsData ] = useState({});
+  const localsSystemDataValue = useMemo(
+    () => ({ localsData, setLocalsData }),
+    [local]
+  );
+
   useEffect(() => {
     void getProducts()
+    void getSystem()
   }, [])
 
   const getProducts = async () => {
@@ -38,14 +51,28 @@ const App = (props) => {
       });
     });
 
-    const localisations = Object.keys(dataProducts[0]).filter((loc) => loc !== "id");
-    setLocals(localisations)
     setProducts(dataProducts)
+  }
+
+  const getSystem = async () => {
+    const system = db.ref('System');
+    await system.get();
+    let dataSystem = {};
+
+    system.on('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        dataSystem = childSnapshot.val()
+      });
+    });
+
+    const localisations = Object.keys(dataSystem)
+    setLocals(localisations)
+    setSystemLocal(dataSystem)
   }
 
   const AppRouters = () => {
     return useRoutes([
-      { path: "/", element: <ProductsList products={products} /> },
+      { path: "/", element: <ProductsList products={products} systemLocal={systemLocal} /> },
       { path: "location", element: <Location /> },
       { path: "aboutUs", element: <AboutUs /> },
     ]);
@@ -53,15 +80,17 @@ const App = (props) => {
 
   return (
     <ContextLocalization.Provider value={value}>
-      <main>
-        <div className={styles.appContainer}>
-          <Router>
-            <Header locals={locals}/>
+      <ContextLocalizationsData.Provider value={localsSystemDataValue}>
+        <main>
+          <div className={styles.appContainer}>
+            <Router>
+              <Header locals={locals} systemLocal={systemLocal} />
 
-            <AppRouters />
-          </Router>
-        </div>
-      </main>
+              <AppRouters />
+            </Router>
+          </div>
+        </main>
+      </ContextLocalizationsData.Provider>
     </ContextLocalization.Provider>
   );
 };

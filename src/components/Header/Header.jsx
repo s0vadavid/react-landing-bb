@@ -6,7 +6,7 @@ import { ContextLocalization } from "../../App";
 
 import styles from './Header.module.scss';
 
-const Header = ({ locals }) => {
+const Header = ({ locals, systemLocal }) => {
   const [ active, setActive ] = useState(false);
   const navigate = useNavigate();
 
@@ -15,6 +15,8 @@ const Header = ({ locals }) => {
   const onRedirect = (redirectPath) => {
     navigate(redirectPath);
   }
+
+  const getText = (key) => systemLocal && systemLocal[local] && systemLocal[local][key]
 
   return (
     <div className={clsx(styles.headerWrapper, { [styles.active]: active })}>
@@ -26,9 +28,9 @@ const Header = ({ locals }) => {
 
         <div className={styles.links}>
           <ul>
-            <li><a onClick={() => onRedirect('/')}>Products</a></li>
-            <li><a onClick={() => onRedirect('/location')}>Location</a></li>
-            <li><a onClick={() => onRedirect('/aboutUs')}>About Us</a></li>
+            <li><a onClick={() => onRedirect('/')}>{ getText('products') }</a></li>
+            <li><a onClick={() => onRedirect('/location')}>{ getText('location') }</a></li>
+            <li><a onClick={() => onRedirect('/aboutUs')}>{ getText('about') }</a></li>
           </ul>
         </div>
 
