@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, createContext, useMemo } from "react";
 import db from "./firebase.config.js";
 import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 
@@ -9,14 +9,25 @@ import Location from "./components/Location";
 
 import styles from "./App.module.scss";
 
+export const ContextLocalization = createContext({
+  local: 'en',
+  setLocal: () => {},
+});
+
 const App = (props) => {
   const [ products, setProducts ] = useState([]);
+  const [ locals, setLocals ] = useState([]);
+  const [ local, setLocal ] = useState('en');
+  const value = useMemo(
+    () => ({ local, setLocal }),
+    [local]
+  );
 
   useEffect(() => {
-    void fetchBlogs()
+    void getProducts()
   }, [])
 
-  const fetchBlogs = async () => {
+  const getProducts = async () => {
     const products = db.ref('Products');
     await products.get();
     let dataProducts = [];
@@ -27,6 +38,8 @@ const App = (props) => {
       });
     });
 
+    const localisations = Object.keys(dataProducts[0]).filter((loc) => loc !== "id");
+    setLocals(localisations)
     setProducts(dataProducts)
   }
 
@@ -39,15 +52,17 @@ const App = (props) => {
   };
 
   return (
-    <main>
-      <div className={styles.appContainer}>
-        <Router>
-          <Header />
+    <ContextLocalization.Provider value={value}>
+      <main>
+        <div className={styles.appContainer}>
+          <Router>
+            <Header locals={locals}/>
 
-          <AppRouters />
-        </Router>
-      </div>
-    </main>
+            <AppRouters />
+          </Router>
+        </div>
+      </main>
+    </ContextLocalization.Provider>
   );
 };
 

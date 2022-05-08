@@ -152,6 +152,17 @@ header {
     }
   }
 
+  .localWrapper {
+    .local {
+      color: #312f3a;
+      cursor: pointer;
+
+      &.active {
+        color: #64bcf4;
+      }
+    }
+  }
+
   .overlay {
     display: none;
   }
